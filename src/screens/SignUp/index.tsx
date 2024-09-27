@@ -23,38 +23,38 @@ import { AppError } from '@utils/AppError'
 
 import { Button } from '@components/Button'
 import { Input } from '@components/Input'
-import { useAuth } from '@hooks/useAuth'
+import { storageRegisterUserSave } from '@storage/storageUser'
+import { validateCPF } from '@utils/functions'
 
-import { registerUser } from '@services/serviceAuth'
 
 type FormDataProps = {
 	name: string
-	email: string
-	phone: string
-	password: string
-	passwordConfirm: string
+	cpf: string
+	birthdate: string
+	/* password: string
+	passwordConfirm: string */
 }
 
 
 const signUpSchema = yup.object({
 	name: yup.string().required('Campo obrigatório.'),
-	phone: yup.string().required('Campo obrigatório.'),
-	email: yup.string().required('Campo obrigatório.').email('E-mail inválido.'),
-	password: yup
+	cpf: yup
+		.string()
+		.required('Campo obrigatório.')
+		.test('cpf-valid', 'CPF inválido.', (value) => validateCPF(value || '')),
+	birthdate: yup.string().required('Campo obrigatório.'),
+	/* password: yup
 		.string()
 		.required('Campo obrigatório.')
 		.min(6, 'Sua senha deve ter no mínimo 6 caractéres.'),
 	passwordConfirm: yup
 		.string()
 		.required('Confirme sua senha.')
-		.oneOf([yup.ref('password')], 'A senha não confere.'),
+		.oneOf([yup.ref('password')], 'A senha não confere.'), */
 })
 
 export function SignUp() {
 	const toast = useToast()
-
-
-	const { singIn } = useAuth()
 
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -68,11 +68,14 @@ export function SignUp() {
 		resolver: yupResolver(signUpSchema),
 	})
 
-	async function handleSignUp({ name, email, phone, password }: FormDataProps) {
+	async function handleSignUp({ name, cpf, birthdate }: FormDataProps) {
 		try {
 			setIsLoading(true)
-			await registerUser(name, email, phone, password)
-			await singIn(email, password)
+
+			await storageRegisterUserSave({ name, cpf, birthdate })
+
+			navigation.navigate('forgetPassword')
+
 		} catch (error) {
 			console.log(error)
 			setIsLoading(false)
@@ -119,31 +122,32 @@ export function SignUp() {
 
 					<Controller
 						control={control}
-						name="email"
-						rules={{
-							required: 'Campo obrigatório.',
-							pattern: {
-								value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-								message: 'E-mail inválido.',
-							},
-						}}
+						name="cpf"
+
 						render={({ field: { onChange, value } }) => (
-							<TextInputMask
-								type={'cpf'}
-								value={value}
-								onChangeText={onChange}
-								placeholder="CPF"
-								keyboardAppearance="dark"
-								keyboardType="number-pad"
-								placeholderTextColor={'#ffffff79'}
-								style={style.inputMaskDate}
-							/>
+							<>
+								<TextInputMask
+									type={'cpf'}
+									value={value}
+									onChangeText={onChange}
+									placeholder="CPF"
+									keyboardAppearance="dark"
+									keyboardType="number-pad"
+									placeholderTextColor={'#ffffff79'}
+									style={style.inputMaskDate}
+								/>
+								{errors.cpf && (
+									<Text style={{ color: 'red', marginBottom: 10 }}>
+										{errors.cpf?.message}
+									</Text>
+								)}
+							</>
 						)}
 					/>
 
 					<Controller
 						control={control}
-						name="phone"
+						name="birthdate"
 						rules={{ required: 'Data de nascimento obrigatória.' }}
 						render={({ field: { onChange, value } }) => (
 							<TextInputMask

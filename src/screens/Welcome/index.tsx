@@ -25,6 +25,9 @@ export function Welcome() {
 
     return () => clearInterval(interval)
   }, [])
+
+
+
   return (
     <ImageBackground
       source={imageBackground}
@@ -33,6 +36,7 @@ export function Welcome() {
     >
       <View className="justify-center items-start gap-6 my-[200px] px-10">
         <Image source={require('@assets/logo.png')} className='w-32 h-4' />
+
 
         <Text className="text-zinc-100 text-left text-5xl font-bold ">
           Invista de {'\n'}forma simples {'\n'}e inteligente

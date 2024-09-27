@@ -5,3 +5,9 @@ export type UserDTO = {
 	phone?: string
 	avatar?: string
 }
+
+export type UserRegisterDTO = {
+	name: string
+	cpf: string
+	birthdate: string
+}

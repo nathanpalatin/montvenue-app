@@ -16,7 +16,7 @@ export default function Pricing() {
         handlePressOption={() => navigation.pop()}
       />
       <ImageBackground
-        defaultSource={require('@assets/background-secondary.png')}
+        defaultSource={require('@assets/background.png')}
         className="flex-1 justify-center absolute w-full"
       >
         <View className="bg-black/40 absolute h-screen w-screen" />
