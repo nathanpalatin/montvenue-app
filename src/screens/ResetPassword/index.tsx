@@ -8,7 +8,6 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 
-import { useToast } from 'native-base'
 
 import { Controller, useForm } from 'react-hook-form'
 
@@ -21,7 +20,6 @@ import { FormDataCodeProps } from '@dtos/forms'
 
 export function ResetPassword() {
 
-	const toast = useToast()
 
 	const {
 		control,
@@ -44,13 +42,7 @@ export function ResetPassword() {
 				? 'Código inválido.'
 				: 'Erro no servidor, tente novamente mais tarde.'
 
-			toast.show({
-				title,
-				placement: 'bottom',
-				bgColor: 'red.800',
-				borderRadius: 8,
-				marginBottom: 100,
-			})
+
 
 			setIsLoading(false)
 		}

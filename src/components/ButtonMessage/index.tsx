@@ -1,24 +1,23 @@
-import { Button as ButtonNativeBase, IButtonProps } from 'native-base'
+import { TouchableOpacity, Text, TouchableOpacityProps } from 'react-native'
 
-type Props = IButtonProps & {
+type Props = TouchableOpacityProps & {
+  variant?: 'outline' | 'solid'
   onSend?: (text: string) => void
 }
 
-export function ButtonMessage({ children, variant, ...rest }: Props) {
+export function ButtonMessage({ children, variant = 'solid', ...rest }: Props) {
   return (
-    <ButtonNativeBase
-      bg={variant === 'outline' ? 'gray.800' : 'lime.700'}
-      w={'8'}
-      rounded={'full'}
-      h={'8'}
-      borderWidth={variant === 'outline' ? 1 : 0}
-      borderColor={variant === 'outline' ? 'lime.900' : 'none'}
-      _pressed={{
-        bg: variant === 'outline' ? 'gray.800' : 'lime.800',
-      }}
+    <TouchableOpacity
+      className={`w-8 h-8 rounded-full flex items-center justify-center ${variant === 'outline'
+        ? 'bg-gray-800 border border-indigo-900'
+        : 'bg-indigo-700'
+        }`}
+      activeOpacity={0.7}
       {...rest}
     >
-      {children}
-    </ButtonNativeBase>
+      <Text className={`${variant === 'outline' ? 'text-indigo-900' : 'text-white'}`}>
+        {children}
+      </Text>
+    </TouchableOpacity>
   )
 }

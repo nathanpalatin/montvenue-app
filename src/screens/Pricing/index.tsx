@@ -4,8 +4,7 @@ import { ScreenHeader } from '@components/ScreenHeader'
 import { useNavigation } from '@react-navigation/native'
 import { AppNavigatorRoutesProps } from '@routes/app.routes'
 import { CheckCircle } from 'lucide-react-native'
-import { ScrollView } from 'native-base'
-import { View, Text, ImageBackground } from 'react-native'
+import { View, Text, ImageBackground, ScrollView } from 'react-native'
 
 export default function Pricing() {
   const navigation = useNavigation<AppNavigatorRoutesProps>()

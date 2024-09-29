@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { TabRoutesTypes } from '@dtos/TabRoutes'
 import { Home } from '@screens/Home'
 import { BellIcon, HomeIcon, MessageCircle } from 'lucide-react-native'
-import { theme } from 'native-base'
 import { Chats } from '@screens/Chats'
 import { Notifications } from '@screens/Notifications'
 
@@ -46,7 +45,7 @@ export default function TabRoutes() {
 					tabBarIcon: ({ focused, size }) => (
 						<HomeIcon
 							size={size}
-							color={focused ? theme.colors.lime[500] : 'gray'}
+							color={focused ? 'white' : 'gray'}
 						/>
 					)
 				}}
@@ -60,7 +59,7 @@ export default function TabRoutes() {
 					tabBarIcon: ({ focused, size }) => (
 						<MessageCircle
 							size={size}
-							color={focused ? theme.colors.lime[500] : 'gray'}
+							color={focused ? 'white' : 'gray'}
 						/>
 					)
 				}}
@@ -74,7 +73,7 @@ export default function TabRoutes() {
 					tabBarIcon: ({ focused, size }) => (
 						<BellIcon
 							size={size}
-							color={focused ? theme.colors.lime[500] : 'gray'}
+							color={focused ? 'white' : 'gray'}
 						/>
 					)
 				}}

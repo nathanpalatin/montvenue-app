@@ -1,28 +1,25 @@
-import { IInputProps, Input as NativeBaseInput } from 'native-base'
+import { TextInput, View } from 'react-native'
+import clsx from 'clsx'
 
-type Props = IInputProps & {
+type Props = {
   value: string
+  onChangeText: (text: string) => void
+  placeholder?: string
+  [rest: string]: any
 }
 
-export function InputChat({ value, ...rest }: Props) {
+export function InputChat({ value, onChangeText, placeholder = "Envie uma mensagem...", ...rest }: Props) {
   return (
-    <NativeBaseInput
-      mr={value.length > 0 ? '2' : '0'}
-      placeholder="Envie uma mensagem..."
+    <TextInput
+      className={clsx(
+        'flex-1 bg-gray-900 text-gray-100 px-4 py-4 rounded-lg',
+        value.length > 0 ? 'mr-2' : 'mr-0'
+      )}
       value={value}
-      flex={1}
-      px={4}
-      py={4}
-      bg={'gray.900'}
-      _focus={{
-        bg: 'gray.900',
-        borderColor: 'lime.700',
-        borderWidth: 0.4
-      }}
-      color={'gray.100'}
-      rounded={'lg'}
+      onChangeText={onChangeText}
+      placeholder={placeholder}
+      placeholderTextColor="#00000040"
       returnKeyType="send"
-      borderWidth={0}
       {...rest}
     />
   )

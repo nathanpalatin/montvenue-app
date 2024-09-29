@@ -1,20 +1,20 @@
 export default [
 	{
 		id: 1,
-		title: 'Agilidade',
+		title: 'montvenue',
 		description: 'Invista de forma simples e inteligente',
-		image: require('@assets/welcome-splash.png')
+		image: require('@assets/welcome-splash-3.png')
 	},
 	{
 		id: 2,
-		title: '',
-		description: '',
+		title: 'veeem',
+		description: 'TOp!',
 		image: require('@assets/welcome-splash-2.png')
 	},
 	{
 		id: 3,
-		title: '',
-		description: '',
-		image: require('@assets/welcome-splash-3.png')
+		title: 'veeem',
+		description: 'sadsd',
+		image: require('@assets/welcome-splash.png')
 	}
 ]

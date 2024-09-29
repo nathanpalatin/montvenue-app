@@ -4,25 +4,46 @@ import {
 	Text,
 	TouchableOpacity,
 } from 'react-native'
+import clsx from 'clsx'
 
 interface Props extends ButtonProps {
 	variant: 'outline' | 'solid'
 	isLoading?: boolean
+	className?: string
+	textClassName?: string
+	loadingClassName?: string
 }
 
-export function Button({ isLoading, variant, title, ...rest }: Props) {
-	const buttonClasses = `self-center rounded-full w-full ${variant === 'outline' ? 'bg-primary' : 'bg-secondary'}`
-
+export function Button({
+	isLoading,
+	variant,
+	title,
+	className = '',
+	textClassName = '',
+	loadingClassName = 'p-4',
+	...rest
+}: Props) {
 	return (
-		<TouchableOpacity className={buttonClasses} {...rest}>
+		<TouchableOpacity
+			className={clsx(
+				'self-center rounded-full w-full',
+				className,
+			)}
+			{...rest}
+		>
 			{isLoading ? (
-				<ActivityIndicator className='p-4' />
+				<ActivityIndicator className={loadingClassName} />
 			) : (
-				<Text className={`text-lg font-semibold text-center p-3 text-secondary`}>
+				<Text
+					className={clsx(
+						'text-lg font-semibold text-center p-3',
+						textClassName
+
+					)}
+				>
 					{title}
 				</Text>
 			)}
-
 		</TouchableOpacity>
 	)
 }

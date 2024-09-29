@@ -13,7 +13,6 @@ import * as ImagePicker from 'expo-image-picker'
 
 import Modal from 'react-native-modal'
 
-import { useToast } from 'native-base'
 
 import { Button } from '@components/Button'
 import { ScreenHeader } from '@components/ScreenHeader'
@@ -30,6 +29,7 @@ import { updateAvatarInStorage } from '@storage/storageUser'
 import { useNavigation } from '@react-navigation/native'
 import { AppNavigatorRoutesProps } from '@routes/app.routes'
 import { Input } from '@components/Input'
+import { useToast } from '@components/Toast'
 
 export function EditProfile() {
 	const { user, updateUserProfile } = useAuth()

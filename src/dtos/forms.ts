@@ -1,5 +1,5 @@
 export type FormDataProps = {
-	email: string
+	credential: string
 	password: string
 }
 

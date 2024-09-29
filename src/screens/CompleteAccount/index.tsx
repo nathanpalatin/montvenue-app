@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { ImageBackground, Pressable, View, Text } from 'react-native'
-import { useToast } from 'native-base'
 
 import { AppError } from '@utils/AppError'
 
@@ -9,7 +8,7 @@ type FormData = {
 }
 
 export function CompleteAccount() {
-	const toast = useToast()
+
 
 	const [timeSendNewCode, setTimeSendNewCode] = useState<number>(59)
 
@@ -22,19 +21,11 @@ export function CompleteAccount() {
 				? 'Credenciais inválidas.'
 				: 'Erro no servidor. Tente novamente mais tarde.'
 
-			toast.show({
-				title,
-				placement: 'bottom',
-				bgColor: 'red.800',
-				borderRadius: 16,
-				marginBottom: 100,
-			})
 		}
 	}
 
 	const countdown = () => {
 		let seconds = 59
-		// eslint-disable-next-line no-var
 		var countdownInterval = setInterval(function () {
 			setTimeSendNewCode(seconds--)
 			if (seconds < 0) {
@@ -65,7 +56,10 @@ export function CompleteAccount() {
 						{timeSendNewCode}
 					</Text>
 
-					<Pressable onPress={() => handleCompleteAccount}>
+					<Pressable onPress={() => {
+						clearInterval(timeSendNewCode)
+						countdown()
+					}}>
 						<Text className="text-zinc-100">
 							Não recebeu? <Text className="font-bold">Reenviar</Text>
 						</Text>

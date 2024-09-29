@@ -10,6 +10,7 @@ module.exports = {
 			},
 			backgroundColor: {
 				primary: 'rgb(67 56 202)',
+				secondary: '#E1E1E6',
 			},
 			fontFamily: {
 				bold: 'Inter_700Bold',

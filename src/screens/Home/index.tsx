@@ -68,7 +68,7 @@ export function Home() {
 							onPress={() => {
 								setOpenModal(!openModal)
 								setTimeout(() => {
-									navigation.navigate('settings')
+									//navigation.navigate('settings')
 								}, 400)
 							}}
 						>

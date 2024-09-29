@@ -1,12 +1,10 @@
 import { useEffect } from 'react'
-import { NativeBaseProvider } from 'native-base'
 
 import 'react-native-gesture-handler'
 import 'react-native-reanimated'
 
 import './global.css'
 
-import { THEME } from './src/theme'
 
 import { Routes } from './src/routes'
 
@@ -14,6 +12,7 @@ import { SocketProvider } from '@contexts/socket'
 import { AuthContextProvider } from '@contexts/AuthContext'
 
 import { getPermissions } from '@utils/permissions'
+import { ToastProvider } from '@components/Toast'
 
 export default function App() {
 
@@ -22,12 +21,12 @@ export default function App() {
 	}, [])
 
 	return (
-		<NativeBaseProvider theme={THEME}>
-			<AuthContextProvider>
-				<SocketProvider>
+		<AuthContextProvider>
+			<SocketProvider>
+				<ToastProvider>
 					<Routes />
-				</SocketProvider>
-			</AuthContextProvider>
-		</NativeBaseProvider>
+				</ToastProvider>
+			</SocketProvider>
+		</AuthContextProvider>
 	)
 }

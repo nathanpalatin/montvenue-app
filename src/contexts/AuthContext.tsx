@@ -13,6 +13,7 @@ import { UserDTO } from '@dtos/UserDTO'
 
 import { login } from '@services/serviceAuth'
 import { api } from '@services/api'
+import { AppError } from '@utils/AppError'
 
 export type AuthContextDataProps = {
 	user: UserDTO
@@ -56,9 +57,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 			if (data.token) {
 				storageUserAndToken(data.user, data.token, data.refreshToken)
 			}
-
 		} catch (error) {
-			throw error
+			throw new AppError('Credenciais inválidas.');
 		}
 	}
 

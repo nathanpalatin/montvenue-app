@@ -1,6 +1,6 @@
-import { IImageProps, Image } from 'native-base'
+import { Image, ImageProps } from 'react-native'
 
-type Props = IImageProps & {
+type Props = ImageProps & {
 	size: number
 }
 

@@ -1,8 +1,5 @@
 export type AppRoutesTypes = {
 	home: undefined
-	chat: undefined
-	stories: undefined
-	settings: undefined
-	editProfile: undefined
+	logged: undefined
 	notifications: undefined
 }

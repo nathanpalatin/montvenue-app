@@ -1,19 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { ScrollView as ScrollTypes, Keyboard } from 'react-native'
-
+import { useEffect, useRef, useState } from 'react'
+import { ScrollView as ScrollTypes, Keyboard, TextInput, View, Text, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { AppNavigatorRoutesProps } from '@routes/app.routes'
+import { MaterialIcons } from '@expo/vector-icons'
 
 import { useSocket } from '@contexts/socket'
 import { formatDate } from '@utils/handleDate'
 
-import { MaterialIcons } from '@expo/vector-icons'
-
-import { Box, theme, ScrollView, Text, KeyboardAvoidingView, Icon, CheckIcon } from 'native-base'
-
-import { InputChat } from '@components/InputChat'
 import { ScreenHeader } from '@components/ScreenHeader'
-import { ButtonMessage } from '@components/ButtonMessage'
 
 export function Chat() {
   const { sendMessage, messageList, getUserOnline, currentChat, userId, clearChat } = useSocket()
@@ -21,7 +14,7 @@ export function Chat() {
   const [message, setMessage] = useState<string>('')
   const [isOnline, setIsOnline] = useState<boolean>(false)
 
-  const navigation = useNavigation<AppNavigatorRoutesProps>()
+  const navigation = useNavigation()
 
   const scrollViewRef = useRef<ScrollTypes>(null)
 
@@ -52,51 +45,86 @@ export function Chat() {
   }, [currentChat])
 
   if (!currentChat) {
-    return
+    return null
   }
 
   return (
-    <KeyboardAvoidingView behavior={'padding'} style={{ flex: 1, backgroundColor: '#111111' }} keyboardVerticalOffset={-24}>
+    <View style={{ flex: 1, backgroundColor: '#111111', paddingBottom: 10 }}>
       <ScreenHeader
         handlePressOption={() => {
-          navigation.pop()
+          navigation.goBack()
         }}
         secondOption
         online={isOnline}
         avatar={'https://github.com/ismaeleliper.png'}
         title={'Ismael Eliper'}
       />
-      <ScrollView
-        onContentSizeChange={() => scrollViewRef.current && scrollViewRef.current.scrollToEnd({ animated: true })}
-        showsVerticalScrollIndicator={false}
+      <ScrollTypes
         ref={scrollViewRef}
-        px={4}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
-        my={2}
+        onContentSizeChange={() => scrollViewRef.current && scrollViewRef.current.scrollToEnd({ animated: true })}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end', paddingHorizontal: 16, marginVertical: 8 }}
       >
         {messageList.map((item, index) => (
-          <Box flexDirection={'row'} key={index} justifyContent={item.userId === userId ? 'flex-end' : 'flex-start'}>
-            <Box bg={item.userId === userId ? 'lime.700' : 'gray.400'} mb={'1'} rounded={'sm'} minWidth={'20'} p={'2'}>
-              <Text color={theme.colors.gray[200]} fontFamily={'body'} fontSize={'sm'} mb={2} textAlign={'left'}>
-                {item.messageText}
-              </Text>
-              <Text color={theme.colors.gray[300]} ml={12} textAlign={'right'} position={'absolute'} opacity={0.4} bottom={1} w={'10'} right={2} fontFamily={'mono'} fontSize={'2xs'}>
+          <View
+            key={index}
+            style={{
+              flexDirection: 'row',
+              justifyContent: item.userId === userId ? 'flex-end' : 'flex-start',
+              marginBottom: 8,
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: item.userId === userId ? '#84cc16' : '#9ca3af',
+                padding: 8,
+                borderRadius: 4,
+                minWidth: '20%',
+              }}
+            >
+              <Text style={{ color: '#e5e7eb', marginBottom: 8, fontSize: 14 }}>{item.messageText}</Text>
+              <Text
+                style={{
+                  color: '#9ca3af',
+                  position: 'absolute',
+                  bottom: 4,
+                  right: 8,
+                  fontSize: 10,
+                  opacity: 0.4,
+                }}
+              >
                 {formatDate(item.messageDate)}
-                {item.userId === userId && <CheckIcon size={2.5} color={theme.colors.gray[400]} />}
+                {item.userId === userId && (
+                  <MaterialIcons name="check" size={14} color={'#d1d5db'} />
+                )}
               </Text>
-            </Box>
-          </Box>
+            </View>
+          </View>
         ))}
-      </ScrollView>
+      </ScrollTypes>
 
-      <Box flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} mt={1} mb={10} mx={4}>
-        <InputChat value={message} onChangeText={text => setMessage(text)} onSubmitEditing={() => handleMessage(message)} />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 16 }}>
+        <TextInput
+          style={{
+            flex: 1,
+            backgroundColor: '#374151',
+            color: '#d1d5db',
+            borderRadius: 24,
+            paddingHorizontal: 16,
+            paddingVertical: 8,
+            marginRight: 8,
+          }}
+          value={message}
+          onChangeText={text => setMessage(text)}
+          placeholder="Envie uma mensagem..."
+          placeholderTextColor="#9ca3af"
+          onSubmitEditing={() => handleMessage(message)}
+        />
         {message.length > 0 && (
-          <ButtonMessage onPress={() => handleMessage(message)}>
-            <Icon as={MaterialIcons} name="send" color={'gray.100'} size="4" />
-          </ButtonMessage>
+          <TouchableOpacity onPress={() => handleMessage(message)}>
+            <MaterialIcons name="send" size={24} color="#d1d5db" />
+          </TouchableOpacity>
         )}
-      </Box>
-    </KeyboardAvoidingView>
+      </View>
+    </View>
   )
 }

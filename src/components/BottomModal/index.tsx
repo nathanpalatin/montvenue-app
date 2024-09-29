@@ -1,4 +1,3 @@
-import { theme } from 'native-base'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { GestureDetector, Gesture } from 'react-native-gesture-handler'
@@ -58,7 +57,7 @@ export function Sheet({ onClose, children }: Props) {
 			>
 				<MaterialCommunityIcons
 					name="react"
-					color={theme.colors.gray[500]}
+					color={'white'}
 					size={24}
 					style={{ alignSelf: 'center', margin: 10 }}
 				/>

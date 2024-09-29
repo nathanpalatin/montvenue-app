@@ -9,8 +9,12 @@ import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 import homebg1 from '@assets/welcome-splash.png'
 import homebg2 from '@assets/welcome-splash-2.png'
 import homebg3 from '@assets/welcome-splash-3.png'
+import { useSharedValue } from 'react-native-reanimated'
 
 export function Welcome() {
+
+  const scrollX = useSharedValue(0)
+
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
   const backgroudImages = [homebg1, homebg2, homebg3]
   const [imageBackground, setImageBackground] = useState()

@@ -1,46 +1,41 @@
-import { FormControl, IInputProps, Input as NativeBaseInput } from 'native-base'
+import { TextInput, Text, View } from 'react-native'
+import clsx from 'clsx'
 
-type Props = IInputProps & {
+type Props = {
 	errorMessage?: string | null
+	isInvalid?: boolean
+	className?: string
+	inputClassName?: string
 	variant?: boolean
+	[rest: string]: any // Para passar props adicionais
 }
 
 export function Input({
-	variant,
 	errorMessage = null,
 	isInvalid,
+	className = '',
+	inputClassName = '',
 	...rest
 }: Props) {
 	const invalid = !!errorMessage || isInvalid
 
 	return (
-		<FormControl isInvalid={invalid} mb={'4'}>
-			<NativeBaseInput
-				bg={'gray.900'}
-				px={1}
-				py={4}
-				autoCapitalize={'none'}
-				rounded={'sm'}
-				fontSize="sm"
-				color={'gray.100'}
+		<View className={clsx('mb-4', className)}>
+			<TextInput
+				className={clsx(
+					'bg-gray-900 px-1 py-4 rounded-sm text-sm text-gray-100',
+					inputClassName,
+					'border-b',
+					invalid ? 'border-red-500' : 'border-gray-600',
+					'focus:border-indigo-500'
+				)}
+				autoCapitalize="none"
 				placeholderTextColor={'#00000040'}
-				isInvalid={invalid}
-				borderBottomColor={'gray.600'}
-				borderLeftWidth={0}
-				borderTopWidth={0}
-				borderRightWidth={0}
-				borderBottomWidth={1}
-				_invalid={{
-					borderBottomWidth: 2,
-					borderColor: 'red.500',
-				}}
-				_focus={{
-					bg: 'gray.900',
-					borderBottomColor: 'indigo.500',
-				}}
 				{...rest}
 			/>
-			<FormControl.ErrorMessage>{errorMessage}</FormControl.ErrorMessage>
-		</FormControl>
+			{invalid && (
+				<Text className="text-red-500 text-sm mt-1">{errorMessage}</Text>
+			)}
+		</View>
 	)
 }

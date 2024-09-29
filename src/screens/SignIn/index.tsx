@@ -10,7 +10,6 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 
-import { useToast } from 'native-base'
 
 import { Controller, useForm } from 'react-hook-form'
 
@@ -21,14 +20,16 @@ import { useAuth } from '@hooks/useAuth'
 import { AppError } from '@utils/AppError'
 import { ButtonPassword } from '@components/ButtonPassword'
 import { FormDataProps } from '@dtos/forms'
+import { TextInputMask } from 'react-native-masked-text'
+import { style } from './style'
 
 
 export function SignIn() {
+
 	const { singIn } = useAuth()
 
 	const [showPass, setShowPass] = useState(true)
-
-	const toast = useToast()
+	const [cpfFocused, setCpfFocused] = useState(false)
 
 	const {
 		control,
@@ -40,23 +41,15 @@ export function SignIn() {
 
 	const navigation = useNavigation<AuthNavigatorRoutesProps>()
 
-	async function handleSignIn({ email, password }: FormDataProps) {
+	async function handleSignIn({ credential, password }: FormDataProps) {
 		try {
 			setIsLoading(true)
-			await singIn(email, password)
+			await singIn(credential, password)
 		} catch (error) {
 			const isAppError = error instanceof AppError
 			const title = isAppError
 				? 'Credenciais inválidas.'
 				: 'Erro no servidor, tente novamente mais tarde.'
-
-			toast.show({
-				title,
-				placement: 'bottom',
-				bgColor: 'red.800',
-				borderRadius: 8,
-				marginBottom: 100,
-			})
 
 			setIsLoading(false)
 		}
@@ -68,32 +61,39 @@ export function SignIn() {
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 			keyboardVerticalOffset={-120}
 		>
-
 			<View className="flex-1 justify-center px-10 py-20">
 				<View className="flex-grow justify-center  pt-10 ">
 					<Text className='text-left text-white text-xl mb-4 font-bold'>Acessar sua conta</Text>
 					<Text className='text-left text-zinc-400 text-sm mb-4'>Utilize os campos abaixo para inserir seus dados de acesso e prossiga.</Text>
-
 					<Controller
 						control={control}
-						name="email"
-						rules={{ required: 'E-mail inválido' }}
-						render={({ field: { onChange } }) => (
-							<Input
+						name="credential"
+						rules={{ required: 'Credencial inválida' }}
+						render={({ field: { onChange, value } }) => (
+							<TextInputMask
+								type='cpf'
+								value={value}
 								placeholder="Insira seu CPF"
 								keyboardAppearance="dark"
-
 								placeholderTextColor={'#ffffff47'}
 								onChangeText={onChange}
-								errorMessage={errors.email?.message}
+								style={[
+									style.inputMaskDate,
+									{ borderBottomColor: cpfFocused ? theme.colors.indigo[500] : '#4d4d4d' },
+								]}
+								onFocus={() => setCpfFocused(true)}
+								onBlur={() => setCpfFocused(false)}
 							/>
 						)}
 					/>
-
+					{errors.credential && (
+						<Text className='text-red-500'>
+							{errors.credential?.message}
+						</Text>
+					)}
 					<Controller
 						control={control}
 						name="password"
-
 						rules={{ required: 'Senha inválida' }}
 						render={({ field: { onChange } }) => (
 							<Input
@@ -101,6 +101,7 @@ export function SignIn() {
 								onChangeText={onChange}
 								returnKeyType="send"
 								onSubmitEditing={handleSubmit(handleSignIn)}
+
 								InputRightElement={
 									<ButtonPassword
 										show={showPass}
@@ -114,6 +115,7 @@ export function SignIn() {
 							/>
 						)}
 					/>
+
 					<Pressable
 						onPress={() => navigation.navigate('forgetPassword')}
 						className="w-full"
@@ -123,7 +125,6 @@ export function SignIn() {
 						</Text>
 					</Pressable>
 				</View>
-
 				<Button
 					title="Entrar"
 					variant="outline"
@@ -131,7 +132,6 @@ export function SignIn() {
 					disabled={isLoading}
 					onPress={handleSubmit(handleSignIn)}
 				/>
-
 				<Pressable
 					className="mt-10 mb-4"
 					onPress={() => navigation.navigate('signUp')}
@@ -140,7 +140,6 @@ export function SignIn() {
 						Criar nova conta
 					</Text>
 				</Pressable>
-
 			</View>
 		</KeyboardAvoidingView>
 	)
