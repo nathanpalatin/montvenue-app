@@ -7,7 +7,7 @@ import {
 	Platform,
 } from 'react-native'
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 
 import { TextInputMask } from 'react-native-masked-text'
@@ -64,7 +64,8 @@ const signUpSchema = yup.object({
 
 
 export function SignUp() {
-	const toast = useToast()
+
+	const theme = useTheme()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [cpfFocused, setCpfFocused] = useState(false)
@@ -97,11 +98,7 @@ export function SignUp() {
 			setIsLoading(false)
 			const isAppError = error instanceof AppError
 			const title = isAppError ? error.message : 'Error creating account'
-			toast.show({
-				title,
-				placement: 'top',
-				bgColor: 'red.500',
-			})
+
 		}
 	}
 	return (
@@ -155,7 +152,7 @@ export function SignUp() {
 									placeholderTextColor={'#ffffff79'}
 									style={[
 										style.inputMaskDate,
-										{ borderBottomColor: cpfFocused ? theme.colors.indigo[500] : '#4d4d4d' },
+										{ borderBottomColor: cpfFocused ? theme.colors.primary : '#4d4d4d' },
 									]}
 									onFocus={() => setCpfFocused(true)}
 									onBlur={() => setCpfFocused(false)}
@@ -188,7 +185,7 @@ export function SignUp() {
 								placeholderTextColor={'#ffffff79'}
 								style={[
 									style.inputMaskDate,
-									{ borderBottomColor: birthdateFocused ? theme.colors.indigo[500] : '#4d4d4d' },
+									{ borderBottomColor: birthdateFocused ? theme.colors.primary : '#4d4d4d' },
 								]}
 								onFocus={() => setBirthdateFocused(true)}
 								onBlur={() => setBirthdateFocused(false)}

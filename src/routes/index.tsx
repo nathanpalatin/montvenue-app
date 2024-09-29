@@ -1,15 +1,16 @@
+import { useEffect, useState } from 'react'
 import { StatusBar, View } from 'react-native'
 
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer } from '@react-navigation/native'
 
 import { useAuth } from '@hooks/useAuth'
 
 import { AppRoutes } from './app.routes'
 import { AuthRoutes } from './auth.routes'
-import { useEffect, useState } from 'react'
 import { useFonts } from 'expo-font'
 import { Inter_400Regular, Inter_500Medium, Inter_700Bold } from '@expo-google-fonts/inter'
 import { AppLoading } from '@components/AppLoading'
+import { theme } from '@utils/theme'
 
 const linking = {
 	prefixes: ['zapsales://', 'com.zapsales://'],
@@ -47,8 +48,6 @@ export function Routes() {
 		prepareApp()
 	}, [fontsLoaded])
 
-	const theme = DefaultTheme
-	theme.colors.background = 'primary'
 
 	if (!isAppReady) {
 		return <AppLoading />

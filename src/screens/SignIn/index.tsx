@@ -7,7 +7,7 @@ import {
 	Platform,
 } from 'react-native'
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 
 
@@ -26,6 +26,7 @@ import { style } from './style'
 
 export function SignIn() {
 
+	const theme = useTheme()
 	const { singIn } = useAuth()
 
 	const [showPass, setShowPass] = useState(true)
@@ -79,7 +80,7 @@ export function SignIn() {
 								onChangeText={onChange}
 								style={[
 									style.inputMaskDate,
-									{ borderBottomColor: cpfFocused ? theme.colors.indigo[500] : '#4d4d4d' },
+									{ borderBottomColor: cpfFocused ? theme.colors.primary : '#4d4d4d' },
 								]}
 								onFocus={() => setCpfFocused(true)}
 								onBlur={() => setCpfFocused(false)}
